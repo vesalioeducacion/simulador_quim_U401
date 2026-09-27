@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUÍMICA - El Carbono, Hidrocarburos y Grupos Funcionales (UCCuyo)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- KaTeX for ultra-fast LaTeX formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Outfit & JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f7f9f6;
+        }
+        /* Paleta Institucional Verde Oliva UCCuyo (Idéntica a Química U3-01 y U3-02) */
+        .text-accent { color: #436600; }
+        .bg-accent { background-color: #436600; }
+        .bg-accent-hover:hover { background-color: #324d00; }
+        .bg-accent-light { background-color: #f1f6eb; }
+        .border-accent { border-color: #436600; }
+
+        .text-primary { color: #436600; }
+        .bg-primary { background-color: #436600; }
+        .bg-primary-dark { background-color: #324d00; }
+        .border-primary { border-color: #436600; }
+        
+        .focus-accent:focus {
+            border-color: #436600;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 102, 0, 0.2);
+        }
+        
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        canvas {
+            touch-action: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Cabecera Institucional UCCuyo -->
+    <header class="bg-white border-b border-gray-200 shadow-xs sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-accent flex items-center justify-center text-white font-bold text-lg shadow-sm">
+                    Q
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-gray-800 tracking-wide uppercase">QUÍMICA & BIOQUÍMICA</h1>
+                    <p class="text-xs text-gray-500 font-semibold">PreMédico (Facultad de Cs. Médicas - UCCuyo)</p>
+                </div>
+            </div>
+            <!-- Botón de Guía de Estudio -->
+            <button onclick="openTutorial()" class="flex items-center gap-1.5 px-3 py-1.5 bg-accent text-white text-xs font-semibold rounded-lg shadow-sm hover:opacity-90 transition">
+                <i class="fa-solid fa-graduation-cap"></i>
+                Guía de Uso
+            </button>
+        </div>
+    </header>
+
+    <!-- Contenido Principal con Menú Lateral -->
+    <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 flex flex-col lg:flex-row gap-6">
+        
+        <!-- Menú de Navegación Lateral -->
+        <nav class="w-full lg:w-64 flex flex-row lg:flex-col gap-2 bg-white p-3 rounded-2xl shadow-sm border border-gray-100 overflow-x-auto lg:overflow-x-visible whitespace-nowrap lg:whitespace-normal sticky top-20 h-fit">
+            <button onclick="switchTab('tab-carbono')" id="btn-tab-carbono" class="bg-accent text-white flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-semibold transition">
+                1. El Carbono & Geometría
+            </button>
+            <button onclick="switchTab('tab-hidrocarburos')" id="btn-tab-hidrocarburos" class="text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-medium transition">
+                2. Hidrocarburos & Isomería
+            </button>
+            <button onclick="switchTab('tab-oxigenados')" id="btn-tab-oxigenados" class="text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-medium transition">
+                3. Grupos Oxigenados
+            </button>
+            <button onclick="switchTab('tab-nitrogenados')" id="btn-tab-nitrogenados" class="text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-medium transition">
+                4. Grupos Nitrogenados
+            </button>
+        </nav>
+
+        <!-- Contenedores de Sección -->
+        <div class="flex-1 overflow-hidden space-y-6">
+
+            <!-- ==================== TAB 1: EL CARBONO & GEOMETRÍA ==================== -->
+            <section id="tab-carbono" class="tab-content block space-y-6">
+                <!-- Header Card -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-accent bg-accent-light px-2.5 py-1 rounded-md border border-accent/20">Módulo 1</span>
+                            <h2 class="text-xl font-bold text-gray-800 mt-1">El Carbono y sus Propiedades Moleculares</h2>
+                        </div>
+                        <span class="text-xs bg-slate-100 text-slate-700 font-semibold px-3 py-1.5 rounded-xl border border-slate-200">
+                            Superación del Vitalismo (Wöhler, 1828)
+                        </span>
+                    </div>
+                    <p class="text-xs text-gray-500 leading-relaxed">
+                        Fundamentos fisicoquímicos del átomo de carbono ($Z = 6$): tetravalencia, electronegatividad intermedia, concatenación y geometría espacial tridimensional.
+                    </p>
+                </div>
+
+                <!-- Contexto Histórico Wöhler & Tetravalencia -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-3">
+                        <div class="flex items-center justify-between pb-2 border-b border-gray-100">
+                            <h3 class="text-sm font-bold text-gray-800 flex items-center gap-2">
+                                <i class="fa-solid fa-flask-vial text-accent"></i> Síntesis de la Urea y Vitalismo
+                            </h3>
+                            <span class="text-[10px] font-mono text-gray-500 font-bold">1828</span>
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            Friedrich Wöhler derribó la hipótesis de la <em>fuerza vital</em> al sintetizar urea (compuesto orgánico celular) mediante el calentamiento de cianato de amonio (sal inorgánica):
+                        </p>
+                        <div class="p-3 bg-accent-light rounded-xl border border-accent/20 text-center font-mono text-xs font-bold text-accent">
+                            $\text{NH}_4\text{CNO} \xrightarrow{\Delta} \text{CO}(\text{NH}_2)_2$
+                        </div>
+                        <p class="text-[11px] text-gray-500">
+                            Este experimento demostró que las leyes físico-químicas de la materia inanimada rigen con idéntica validez en las biomoléculas de los seres vivos.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-3">
+                        <div class="flex items-center justify-between pb-2 border-b border-gray-100">
+                            <h3 class="text-sm font-bold text-gray-800 flex items-center gap-2">
+                                <i class="fa-solid fa-atom text-accent"></i> Arquitectura y Concatenación
+                            </h3>
+                            <span class="text-[10px] font-mono text-accent font-bold">Z = 6</span>
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            Configuración electrónica basal: $1s^2 2s^2 2p^2$. Mediante hibridación orbital dispone de <strong>4 electrones de valencia</strong> en orbitales equivalentes, permitiéndole formar 4 enlaces covalentes estables.
+                        </p>
+                        <ul class="text-xs text-gray-600 space-y-1.5 list-disc list-inside bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <li><strong>Electronegatividad Intermedia ($\approx 2.5$):</strong> Forma enlaces covalentes fuertes no polares o polares moderados con $\text{H, O, N, S}$ y halógenos.</li>
+                            <li><strong>Auto-concatenación:</strong> Capacidad única de formar cadenas estables $\text{C-C}$ lineales, ramificadas y anillos aromáticos.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Comparador Dinámico: Hibridación, Geometría y Modelos Moleculares -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-5">
+                    <div class="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4 pb-3 border-b border-gray-100">
+                        <div>
+                            <h3 class="text-sm font-bold text-gray-800 flex items-center gap-2">
+                                <i class="fa-solid fa-shapes text-accent"></i> Geometría Molecular y Relevancia Farmacológica
+                            </h3>
+                            <p class="text-xs text-gray-500">Seleccione la hibridación para visualizar los ángulos espaciales y su impacto en receptores.</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2 w-full xl:w-auto">
+                            <button onclick="selectHybrid('sp3')" id="btn-hyb-sp3" class="px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-accent text-white shadow-xs transition whitespace-nowrap">
+                                sp³ (Tetraédrica, 109.5°)
+                            </button>
+                            <button onclick="selectHybrid('sp2')" id="btn-hyb-sp2" class="px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition whitespace-nowrap">
+                                sp² (Trigonal Plana, 120°)
+                            </button>
+                            <button onclick="selectHybrid('sp')" id="btn-hyb-sp" class="px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition whitespace-nowrap">
+                                sp (Lineal, 180°)
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 space-y-4 text-xs text-gray-600 leading-relaxed">
+                            <div class="p-4 bg-slate-50 rounded-xl border border-gray-200">
+                                <span id="hyb-title" class="text-sm font-bold text-gray-800 block mb-1">Carbono Tetrahédrico ($sp^3$): Ángulo de $109.5^\circ$</span>
+                                <p id="hyb-desc">
+                                    Los 4 orbitales híbridos $sp^3$ se orientan hacia los vértices de un tetraedro regular minimizando la repulsión electrónica (RPECV). La distancia angular exacta de $109.5^\circ$ genera una estructura tridimensional indeformable que confiere orientación precisa a los sustituyentes.
+                                </p>
+                            </div>
+
+                            <div class="p-4 bg-accent-light rounded-xl border border-accent/20">
+                                <strong class="text-accent text-xs block mb-1 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-key"></i> Modelo Farmacológico Llave-Cerradura
+                                </strong>
+                                <p id="hyb-pharma">
+                                    La actividad farmacológica de medicamentos y neurotransmisores exige una <strong>complementariedad espacial estereoespecífica</strong> con los sitios activos de receptores biológicos. Una orientación tetraédrica inversa en un estereoisómero puede anular el efecto terapéutico o desencadenar toxicidad mortal.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Diagrama SVG de Geometría -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-gray-200 flex flex-col items-center justify-center">
+                            <span class="text-[11px] font-bold text-gray-600 uppercase tracking-wider mb-2">Esquema Orbital 3D</span>
+                            <div id="hyb-svg-container" class="w-full flex justify-center py-2">
+                                <!-- SVG Reactivo -->
+                                <svg width="180" height="150" viewBox="0 0 180 150">
+                                    <circle cx="90" cy="75" r="14" fill="#1e293b"></circle>
+                                    <text x="90" y="80" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">C</text>
+                                    <!-- 4 enlaces tetraédricos -->
+                                    <line x1="90" y1="61" x2="90" y2="20" stroke="#436600" stroke-width="4" stroke-linecap="round"></line>
+                                    <circle cx="90" cy="16" r="8" fill="#436600"></circle>
+                                    <text x="90" y="20" text-anchor="middle" font-size="8" fill="#fff">H</text>
+
+                                    <line x1="104" y1="75" x2="148" y2="98" stroke="#436600" stroke-width="4" stroke-linecap="round"></line>
+                                    <circle cx="152" cy="101" r="8" fill="#436600"></circle>
+                                    <text x="152" y="105" text-anchor="middle" font-size="8" fill="#fff">H</text>
+
+                                    <line x1="76" y1="75" x2="32" y2="98" stroke="#436600" stroke-width="4" stroke-linecap="round"></line>
+                                    <circle cx="28" cy="101" r="8" fill="#436600"></circle>
+                                    <text x="28" y="105" text-anchor="middle" font-size="8" fill="#fff">H</text>
+
+                                    <!-- Cuña hacia adelante -->
+                                    <polygon points="90,89 80,128 100,128" fill="#436600"></polygon>
+                                    <circle cx="90" cy="132" r="8" fill="#436600"></circle>
+                                    <text x="90" y="136" text-anchor="middle" font-size="8" fill="#fff">H</text>
+
+                                    <text x="90" y="105" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f172a" font-family="JetBrains Mono">109.5°</text>
+                                </svg>
+                            </div>
+                            <span id="hyb-caption" class="text-[10px] text-accent font-mono font-bold mt-1">Geometría Tetraédrica ($sp^3$)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comparador de Representaciones: Empírica, Condensada, Desarrollada y Cadenas -->
+                <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-3">
+                    <h3 class="text-sm font-bold text-gray-800 flex items-center gap-2">
+                        <i class="fa-solid fa-diagram-project text-accent"></i> Tipos de Cadenas Carbonadas
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                        <div class="p-3 bg-slate-50 rounded-xl border border-gray-200">
+                            <strong class="text-gray-800 block mb-1">Cadenas Lineales</strong>
+                            <p class="text-gray-600">Átomos de carbono dispuestos secuencialmente sin ramificaciones (ej. $n$-hexano, componente de solventes industriales).</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-gray-200">
+                            <strong class="text-gray-800 block mb-1">Cadenas Ramificadas</strong>
+                            <p class="text-gray-600">Presencia de sustituyentes alquilo que reducen la superficie de contacto intermolecular y disminuyen el punto de ebullición (ej. isooctano).</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-gray-200">
+                            <strong class="text-gray-800 block mb-1">Cadenas Cíclicas</strong>
+                            <p class="text-gray-600">Anillos carbonados saturados o insaturados (ej. ciclohexano, colesterol y hormonas esteroideas derivadas del ciclopentanoperhidrofenantreno).</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== TAB 2: HIDROCARBUROS & ISOMERÍA ==================== -->
+            <section id="tab-hidrocarburos" class="tab-content hidden space-y-6">
+                <!-- Header Card -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-accent bg-accent-light px-2.5 py-1 rounded-md border border-accent/20">Módulo 2</span>
+                            <h2 class="text-xl font-bold text-gray-800 mt-1">Hidrocarburos Alifáticos y Aromáticos</h2>
+                        </div>
+                        <span class="text-xs bg-slate-100 text-slate-700 font-semibold px-3 py-1.5 rounded-xl border border-slate-200">
+                            Saturados, Insaturados e Isomería Cis-Trans
+                        </span>
+                    </div>
+                    <p class="text-xs text-gray-500 leading-relaxed">
+                        Compuestos constituidos exclusivamente por carbono e hidrógeno. Clasificación homóloga, propiedades físicas, toxicología de la combustión y reactividad química.
+                    </p>
+                </div>
+
+                <!-- Sub-pestañas Interactivas para Hidrocarburos -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="switchHydroSub('alcanos')" id="btn-sub-alcanos" class="px-4 py-2 text-xs font-semibold rounded-xl bg-accent text-white shadow-xs transition">
+                        Alcanos & Haluros (Saturados)
+                    </button>
+                    <button onclick="switchHydroSub('alquenos')" id="btn-sub-alquenos" class="px-4 py-2 text-xs font-semibold rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+                        Alquenos, Alquinos & Isomería
+                    </button>
+                    <button onclick="switchHydroSub('aromaticos')" id="btn-sub-aromaticos" class="px-4 py-2 text-xs font-semibold rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+                        Compuestos Aromáticos (Benceno)
+                    </button>
+                </div>
+
+                <!-- Submódulo 1: Alcanos y Haluros -->
+                <div id="hydro-sub-alcanos" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-3">
+                            <h3 class="text-sm font-bold text-gray-800 flex items-center justify-between pb-2 border-b border-gray-100">
+                                <span>Serie Homóloga y Fuerzas de London</span>
+                                <span class="font-mono text-xs text-accent">$\text{C}_n\text{H}_{2n+2}$</span>
+                            </h3>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                Uniones covalentes sencillas $\sigma$ exclusivamente. Experimentan fuerzas intermoleculares débiles de dispersión de London:
+                            </p>
+                            <ul class="text-xs text-gray-600 space-y-1 list-disc list-inside">
+                                <li><strong>$C_1$ a $C_4$:</strong> Gases a $25^\circ\text{C}$ (metano, etano, propano, butano).</li>
+                                <li><strong>$C_5$ a $C_{17}$:</strong> Líquidos (pentano, $P_{eb} = 36.1^\circ\text{C}$, volátil a temperatura corporal $37^\circ\text{C}$).</li>
+                                <li><strong>$\ge C_{18}$:</strong> Sólidos cerosos ("parafinas" = poca afinidad química).</li>
+                            </ul>
+                            <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900">
+                                <strong>⚠️ Neumonía Lipoidea y Émbolos Grasos:</strong> Al ser completamente apolares ("lo semejante disuelve lo semejante"), la aspiración accidental de hidrocarburos disuelve el surfactante pulmonar provocando colapso alveolar agudo.
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-3">
+                            <h3 class="text-sm font-bold text-gray-800 pb-2 border-b border-gray-100">
+                                Toxicología y Farmacología de Alcanos
+                            </h3>
+                            <div class="space-y-2.5 text-xs text-gray-600">
+                                <div class="p-3 bg-rose-50 rounded-xl border border-rose-200">
+                                    <strong class="text-rose-800 block mb-1">Combustión Incompleta y Carboxihemoglobina</strong>
+                                    Genera Monóxido de Carbono ($\text{CO}$), el cual tiene una afinidad 200 veces superior que el $\text{O}_2$ por el hierro hemínico, formando carboxihemoglobina ($\text{CO-Hb}$) y asfixia celular.
+                                </div>
+                                <div class="p-3 bg-accent-light rounded-xl border border-accent/20">
+                                    <strong class="text-accent block mb-1">Halogenación y Anestésicos Generales</strong>
+                                    Sustitución radicalaria por luz UV: $\text{R-H} + \text{Cl}_2 \xrightarrow{h\nu} \text{R-Cl} + \text{HCl}$. Dio origen al <strong>Halotano</strong> ($\text{CF}_3\text{CHBrCl}$) y a la <strong>perfluorodecalina</strong> como transportador sintético de oxígeno en sangre artificial.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submódulo 2: Alquenos, Alquinos e Isomería Cis-Trans -->
+                <div id="hydro-sub-alquenos" class="space-y-4 hidden">
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-gray-100">
+                            <div>
+                                <h3 class="text-sm font-bold text-gray-800">Insaturaciones y Laboratorio de Isomería Cis-Trans</h3>
+                                <p class="text-xs text-gray-500">La rigidez del doble enlace $\text{C=C}$ (un enlace $\sigma$ y un enlace $\pi$) impide la libre rotación.</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="toggleCisTrans('cis')" id="btn-iso-cis" class="px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-accent text-white shadow-xs transition">
+                                    Isómero Cis (Z)
+                                </button>
+                                <button onclick="toggleCisTrans('trans')" id="btn-iso-trans" class="px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+                                    Isómero Trans (E)
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                            <div class="space-y-3 text-xs text-gray-600">
+                                <div class="p-3.5 bg-slate-50 rounded-xl border border-gray-200">
+                                    <strong id="iso-name" class="text-gray-800 text-sm block mb-1">cis-but-2-eno (Grupos hacia el mismo lado)</strong>
+                                    <p id="iso-desc">
+                                        Ambos grupos metilo ($-\text{CH}_3$) se orientan hacia el mismo semiplano respecto al eje del doble enlace. Presenta momento dipolar neto diferente de cero ($\mu > 0$), lo que incrementa su punto de ebullición frente al trans.
+                                    </p>
+                                </div>
+                                <div class="p-3.5 bg-accent-light rounded-xl border border-accent/20">
+                                    <strong class="text-accent block mb-1 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-eye"></i> Bioquímica Médica: Ciclo Visual y Retinal
+                                    </strong>
+                                    <p>
+                                        El ciclo visual humano depende de la fotoisomerización de <strong>11-cis-retinal</strong> a <strong>todo-trans-retinal</strong> al absorber un fotón en la proteína rodopsina de los bastones retinianos, generando el impulso nervioso hacia el nervio óptico.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Gráfico SVG Dinámico Cis / Trans -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-gray-200 flex flex-col items-center justify-center">
+                                <div id="iso-svg-container" class="w-full flex justify-center py-2">
+                                    <svg width="200" height="120" viewBox="0 0 200 120">
+                                        <!-- Cis double bond -->
+                                        <line x1="80" y1="60" x2="120" y2="60" stroke="#1e293b" stroke-width="4"></line>
+                                        <line x1="80" y1="68" x2="120" y2="68" stroke="#436600" stroke-width="3"></line>
+                                        <circle cx="80" cy="64" r="8" fill="#1e293b"></circle>
+                                        <circle cx="120" cy="64" r="8" fill="#1e293b"></circle>
+                                        <!-- Substituents CIS: up -->
+                                        <line x1="80" y1="60" x2="45" y2="25" stroke="#436600" stroke-width="3"></line>
+                                        <circle cx="40" cy="20" r="10" fill="#436600"></circle>
+                                        <text x="40" y="24" text-anchor="middle" font-size="8" fill="#fff" font-weight="bold">CH3</text>
+
+                                        <line x1="120" y1="60" x2="155" y2="25" stroke="#436600" stroke-width="3"></line>
+                                        <circle cx="160" cy="20" r="10" fill="#436600"></circle>
+                                        <text x="160" y="24" text-anchor="middle" font-size="8" fill="#fff" font-weight="bold">CH3</text>
+
+                                        <!-- H down -->
+                                        <line x1="80" y1="68" x2="55" y2="98" stroke="#94a3b8" stroke-width="2"></line>
+                                        <text x="50" y="105" text-anchor="middle" font-size="9" fill="#64748b">H</text>
+                                        <line x1="120" y1="68" x2="145" y2="98" stroke="#94a3b8" stroke-width="2"></line>
+                                        <text x="150" y="105" text-anchor="middle" font-size="9" fill="#64748b">H</text>
+                                    </svg>
+                                </div>
+                                <span id="iso-caption" class="text-[10px] text-accent font-mono font-bold mt-1">Configuración CIS: Dipolo neto > 0</span>
+                            </div>
+                        </div>
+
+                        <!-- Prueba del Bromo Adición Electrofílica -->
+                        <div class="p-3 bg-slate-50 rounded-xl border border-gray-200 text-xs text-gray-700 flex items-center justify-between">
+                            <div>
+                                <span class="font-bold text-gray-800">Reacción Diagnóstica de Insaturación (Prueba del Bromo):</span>
+                                <p class="text-gray-600 mt-0.5">La adición electrofílica de bromo en solución ($\text{Br}_2/\text{CCl}_4$) decolora la solución de pardo-rojiza a incolora por apertura del enlace $\pi$.</p>
+                            </div>
+                            <span class="text-xs font-mono font-bold text-accent bg-accent-light px-2.5 py-1 rounded-md border border-accent/20">Br₂ → Incoloro</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submódulo 3: Aromáticos -->
+                <div id="hydro-sub-aromaticos" class="space-y-4 hidden">
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+                            <div>
+                                <h3 class="text-sm font-bold text-gray-800">Compuestos Aromáticos y Estabilidad por Resonancia</h3>
+                                <p class="text-xs text-gray-500">Modelo moderno del benceno ($\text{C}_6\text{H}_6$) con deslocalización cíclica de 6 electrones $\pi$.</p>
+                            </div>
+                            <span class="text-xs font-mono font-bold text-accent bg-accent-light px-2.5 py-1 rounded-md">Regla de Hückel (4n+2)</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-600">
+                            <div class="p-4 bg-slate-50 rounded-xl border border-gray-200 space-y-2">
+                                <strong class="text-gray-800 block text-sm">Sustitución Electrofílica Aromática (SEA)</strong>
+                                <p class="leading-relaxed">
+                                    Debido a la altísima energía de resonancia que estabiliza el anillo, el benceno <strong>no sufre adición electrofílica</strong> como los alquenos ordinarios, sino que reacciona por sustitución para mantener intacta su sexteto aromático.
+                                </p>
+                                <p class="text-[11px] text-gray-500">
+                                    Nomenclatura disustituida: <em>orto-</em> ($1,2$), <em>meta-</em> ($1,3$) y <em>para-</em> ($1,4$).
+                                </p>
+                            </div>
+
+                            <div class="p-4 bg-rose-50 rounded-xl border border-rose-200 space-y-2">
+                                <strong class="text-rose-800 block text-sm">Bioacumulación y Toxicología Médica</strong>
+                                <p class="text-rose-900 leading-relaxed">
+                                    Los derivados aromáticos halogenados como el <strong>DDT</strong> y los bifenilos policlorados (PCB) poseen una altísima estabilidad metabólica y extrema liposolubilidad. Se acumulan de forma persistente en el tejido adiposo corporal humano a través de la cadena trófica.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== TAB 3: GRUPOS OXIGENADOS ==================== -->
+            <section id="tab-oxigenados" class="tab-content hidden space-y-6">
+                <!-- Header Card -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-accent bg-accent-light px-2.5 py-1 rounded-md border border-accent/20">Módulo 3</span>
+                            <h2 class="text-xl font-bold text-gray-800 mt-1">Grupos Funcionales Oxigenados</h2>
+                        </div>
+                        <span class="text-xs bg-slate-100 text-slate-700 font-semibold px-3 py-1.5 rounded-xl border border-slate-200">
+                            Alcoholes, Fenoles, Éteres, Carbonilos y Ácidos
+                        </span>
+                    </div>
+                    <p class="text-xs text-gray-500 leading-relaxed">
+                        Compuestos con heteroátomo de oxígeno. Polaridad, puentes de hidrógeno, reactividad de oxidación-reducción y correlaciones metabólicas directas en medicina.
+                    </p>
+                </div>
+
+                <!-- Grid de las 3 Familias Oxigenadas -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- 1. Alcoholes, Fenoles y Éteres -->
+                    <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-3 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between pb-2 border-b border-gray-100">
+                                <span class="text-xs font-bold uppercase bg-accent-light text-accent px-2 py-0.5 rounded">R-OH / R-O-R'</span>
+                                <i class="fa-solid fa-wine-bottle text-accent"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 text-sm mt-2">Alcoholes, Fenoles y Éteres</h3>
+                            <p class="text-xs text-gray-600 mt-1 leading-relaxed">
+                                Derivados orgánicos del agua ($\text{H-O-H}$). Los alcoholes primarios, secundarios y terciarios forman puentes de hidrógeno fuertes.
+                            </p>
+                            <div class="mt-3 p-2.5 bg-rose-50 rounded-xl border border-rose-200 text-xs text-rose-900">
+                                <strong>Toxicología del Metanol:</strong> Se oxida a formaldehído y ácido fórmico generando ceguera irreversible y acidosis. Tratamiento: infusión de <em>etanol</em> como inhibidor competitivo.
+                            </div>
+                        </div>
+                        <div class="text-[11px] text-gray-500 pt-2 border-t border-gray-100">
+                            <strong>Fenoles:</strong> Antioxidantes y antiséptico de Lister.<br>
+                            <strong>Éteres:</strong> Sin puente $\text{O-H}$; volátiles (anestésicos).
+                        </div>
+                    </div>
+
+                    <!-- 2. Aldehídos y Cetonas -->
+                    <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-3 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between pb-2 border-b border-gray-100">
+                                <span class="text-xs font-bold uppercase bg-slate-100 text-gray-700 px-2 py-0.5 rounded">Carbonilo C=O</span>
+                                <i class="fa-solid fa-bolt text-gray-600"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 text-sm mt-2">Aldehídos y Cetonas</h3>
+                            <p class="text-xs text-gray-600 mt-1 leading-relaxed">
+                                El grupo carbonilo es plano trigonal ($120^\circ$) con fuerte polarización ($\text{C}^{\delta+} = \text{O}^{\delta-}$), convirtiendo al carbono en un centro electrofílico diana de ataques nucleofílicos.
+                            </p>
+                            <div class="mt-3 p-2.5 bg-accent-light rounded-xl border border-accent/20 text-xs text-accent">
+                                <strong>Patología y Metabolismo:</strong> Aldosas vs Cetosas (glucosa/fructosa). Formaldehído en anatomía patológica y cuerpos cetónicos en cetoacidosis diabética.
+                            </div>
+                        </div>
+                        <div class="text-[11px] text-gray-500 pt-2 border-t border-gray-100 font-mono text-center">
+                            $\text{R-CHO}$ (Aldehído) | $\text{R-CO-R}'$ (Cetona)
+                        </div>
+                    </div>
+
+                    <!-- 3. Ácidos Carboxílicos y Ésteres -->
+                    <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-3 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between pb-2 border-b border-gray-100">
+                                <span class="text-xs font-bold uppercase bg-slate-100 text-gray-700 px-2 py-0.5 rounded">R-COOH / R-COO-R'</span>
+                                <i class="fa-solid fa-droplet text-gray-600"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 text-sm mt-2">Ácidos Carboxílicos & Ésteres</h3>
+                            <p class="text-xs text-gray-600 mt-1 leading-relaxed">
+                                Formación de dímeros por doble puente de hidrógeno ($P_{eb}$ muy altos). Deslocalización de carga en el anión carboxilato ($\text{R-COO}^-$) que explica su carácter ácido.
+                            </p>
+                            <div class="mt-3 p-2.5 bg-slate-50 rounded-xl border border-gray-200 text-xs text-gray-700">
+                                <strong>Micelas y Sales Biliares:</strong> Carácter anfipático (cabeza polar y cola hidrocarbonada lipofílica) base de la emulsión digestiva de grasas y membrana lipídica.
+                            </div>
+                        </div>
+                        <div class="text-[11px] text-gray-500 pt-2 border-t border-gray-100">
+                            <strong>Ésteres:</strong> Condensación ácido + alcohol. Aromas frutales, triglicéridos y la aspirina (ácido acetilsalicílico).
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== TAB 4: GRUPOS NITROGENADOS ==================== -->
+            <section id="tab-nitrogenados" class="tab-content hidden space-y-6">
+                <!-- Header Card -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-accent bg-accent-light px-2.5 py-1 rounded-md border border-accent/20">Módulo 4</span>
+                            <h2 class="text-xl font-bold text-gray-800 mt-1">Grupos Funcionales Nitrogenados: Aminas y Amidas</h2>
+                        </div>
+                        <span class="text-xs bg-slate-100 text-slate-700 font-semibold px-3 py-1.5 rounded-xl border border-slate-200">
+                            Bases de la Bioquímica y Enlace Peptídico
+                        </span>
+                    </div>
+                    <p class="text-xs text-gray-500 leading-relaxed">
+                        Compuestos con nitrógeno. Basicidad según Bronsted-Lowry, puentes de hidrógeno, heterociclos biológicos y la rigidez planar del enlace amida en proteínas.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Aminas -->
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+                            <h3 class="text-sm font-bold text-gray-800 flex items-center gap-2">
+                                <i class="fa-solid fa-dna text-accent"></i> Aminas (Derivadas del NH₃)
+                            </h3>
+                            <span class="text-xs font-mono font-bold text-accent">1°, 2° y 3°</span>
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            El par electrónico solitario no enlazante del nitrógeno le confiere propiedades de <strong>base débil</strong> y nucleófilo:
+                        </p>
+                        <div class="grid grid-cols-3 gap-2 text-center text-xs font-mono">
+                            <div class="p-2.5 bg-slate-50 rounded-xl border border-gray-200">
+                                <span class="font-bold text-gray-800 block">Primaria</span>
+                                <span class="text-accent">R-NH₂</span>
+                            </div>
+                            <div class="p-2.5 bg-slate-50 rounded-xl border border-gray-200">
+                                <span class="font-bold text-gray-800 block">Secundaria</span>
+                                <span class="text-accent">R₂NH</span>
+                            </div>
+                            <div class="p-2.5 bg-slate-50 rounded-xl border border-gray-200">
+                                <span class="font-bold text-gray-800 block">Terciaria</span>
+                                <span class="text-accent">R₃N</span>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-accent-light rounded-xl border border-accent/20 text-xs text-gray-700">
+                            <strong>Heterociclos y Relevancia Médica:</strong> Pirrol, piridina, pirimidina y purina son los pilares nitrogenados de los ácidos nucleicos (ADN/ARN), neurotransmisores (adrenalina, dopamina) y del anillo porfirínico del <strong>grupo hemo</strong> que coordina el hierro en la hemoglobina.
+                        </div>
+                    </div>
+
+                    <!-- Amidas y Enlace Peptídico -->
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+                            <h3 class="text-sm font-bold text-gray-800 flex items-center gap-2">
+                                <i class="fa-solid fa-link text-accent"></i> Amidas y Enlace Peptídico
+                            </h3>
+                            <span class="text-xs font-mono font-bold text-accent">R-CO-NH₂</span>
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            Resultan de la condensación entre un ácido carboxílico y una amina. La fuerte <strong>deslocalización electrónica por resonancia</strong> entre el carbonilo y el nitrógeno genera:
+                        </p>
+                        <ul class="text-xs text-gray-600 space-y-1.5 list-disc list-inside bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <li>Carácter parcial de doble enlace en la unión $\text{C-N}$ ($40\%$ de doble enlace).</li>
+                            <li><strong>Rigidez trigonal plana:</strong> Impide la rotación sobre el enlace $\text{C-N}$, fijando la geometría fundamental del <strong>enlace peptídico</strong> en proteínas.</li>
+                            <li>Ausencia de basicidad libre comparada con las aminas.</li>
+                        </ul>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-gray-200 text-xs text-gray-700">
+                            <strong>Hidrólisis:</strong> El enlace amida se hidroliza en presencia de catalizadores ácidos o básicos, o por proteasas digestivas (pepsina, tripsina) durante la digestión de proteínas.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer Institucional Vesalio -->
+    <footer class="bg-white border-t border-gray-200 py-3">
+        <div class="max-w-6xl mx-auto px-4 text-center text-xs text-gray-500 font-semibold tracking-wide">
+            Desarrollado por vesalio - Todos los derechos reservados
+        </div>
+    </footer>
+
+    <!-- Modal Guía de Uso Institucional -->
+    <div id="tutorial-modal" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white border border-slate-200 max-w-lg w-full rounded-2xl p-6 shadow-xl space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+                <h3 class="font-bold text-sm text-slate-800 flex items-center space-x-2">
+                    <i class="fa-solid fa-graduation-cap text-accent"></i>
+                    <span>Guía de Uso: El Carbono, Hidrocarburos y Grupos Funcionales</span>
+                </h3>
+                <button onclick="closeTutorial()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-3.5 text-xs text-slate-600 leading-relaxed overflow-y-auto max-h-[380px] pr-2 custom-scroll">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-150">
+                    <strong class="text-accent block mb-1">1. Navegación por Ejes Temáticos</strong>
+                    Explore a través de la barra lateral los 4 módulos esenciales para el ingreso a Medicina: 
+                    <strong>El Carbono & Geometría</strong>, <strong>Hidrocarburos & Isomería</strong>, <strong>Grupos Oxigenados</strong> y <strong>Grupos Nitrogenados</strong>.
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-150">
+                    <strong class="text-accent block mb-1">2. Arquitectura del Carbono y Geometría Espacial</strong>
+                    <ul class="list-disc list-inside space-y-1 mt-1 pl-1">
+                        <li><strong>Revolución de Wöhler:</strong> Superación del vitalismo mediante la síntesis de urea a partir de cianato de amonio ($\text{NH}_4\text{CNO} \xrightarrow{\Delta} \text{CO}(\text{NH}_2)_2$).</li>
+                        <li><strong>Tetravalencia y Concatenación:</strong> Configuración basal $1s^2 2s^2 2p^2$ que genera 4 electrones de valencia y cadenas estables lineales, ramificadas y cíclicas.</li>
+                        <li><strong>Selector Dinámico de Hibridación:</strong> Alterne entre $sp^3$ (tetraédrica, $109.5^\circ$), $sp^2$ (trigonal plana, $120^\circ$) y $sp$ (lineal, $180^\circ$) para analizar el diagrama orbital SVG y su correlación con la <strong>complementariedad espacial (modelo llave-cerradura)</strong> en receptores de fármacos.</li>
+                    </ul>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-150">
+                    <strong class="text-accent block mb-1">3. Hidrocarburos e Isomería Cis-Trans</strong>
+                    <ul class="list-disc list-inside space-y-1 mt-1 pl-1">
+                        <li><strong>Alcanos y Toxicología:</strong> Serie homóloga $\text{C}_n\text{H}_{2n+2}$ y fuerzas de London. Apolaridad y riesgo de neumonía lipoidea por aspiración accidental de solventes; asfixia por carboxihemoglobina ($\text{CO-Hb}$) en combustiones incompletas; y halogenación radicalaria como base del anestésico <em>halotano</em> y sangre artificial (perfluorodecalina).</li>
+                        <li><strong>Simulador Interactivo Cis-Trans:</strong> Alterne entre <em>cis-but-2-eno</em> (dipolo neto $\mu > 0$) y <em>trans-but-2-eno</em> ($\mu = 0$) por rigidez del enlace $\pi$. Analice la analogía biomédica de la fotoisomerización de <strong>11-cis-retinal</strong> a <strong>todo-trans-retinal</strong> en los bastones de la retina durante el ciclo visual.</li>
+                        <li><strong>Prueba del Bromo y Aromáticos:</strong> Ensayo cualitativo de insaturación ($\text{Br}_2$ decolorado) y estabilidad del anillo bencénico ($\text{C}_6\text{H}_6$) por resonancia frente a la bioacumulación persistente de haluros de arilo (DDT) en el tejido adiposo.</li>
+                    </ul>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-150">
+                    <strong class="text-accent block mb-1">4. Familias Oxigenadas y Correlaciones Médicas</strong>
+                    <ul class="list-disc list-inside space-y-1 mt-1 pl-1">
+                        <li><strong>Alcoholes, Fenoles y Éteres:</strong> Clasificación ($1^\circ, 2^\circ, 3^\circ$), oxidación biológica letal del metanol a formaldehído/ácido fórmico tratada con etanol competitivo; fenoles como antioxidantes protectores y éteres volátiles anestésicos.</li>
+                        <li><strong>Aldehídos y Cetonas:</strong> Carbonilo polarizado ($\text{C}^{\delta+} = \text{O}^{\delta-}$) susceptible a ataque nucleofílico. Aldosas vs. cetosas, preservación en formol y presencia de cuerpos cetónicos (acetoacetato) en cetoacidosis diabética.</li>
+                        <li><strong>Ácidos Carboxílicos y Ésteres:</strong> Dímeros por puentes de hidrógeno, acidez por resonancia del anión carboxilato ($\text{R-COO}^-$), solubilidad anfipática en micelas y sales biliares digestivas, y formación de ésteres analgésicos (aspirina).</li>
+                    </ul>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-150">
+                    <strong class="text-accent block mb-1">5. Familias Nitrogenadas y Proteínas</strong>
+                    <ul class="list-disc list-inside space-y-1 mt-1 pl-1">
+                        <li><strong>Aminas:</strong> Derivadas del $\text{NH}_3$ ($1^\circ, 2^\circ, 3^\circ$), con basicidad por par no compartido; heterociclos aromáticos (piridina, purina, pirimidina) en ADN y anillo porfirínico del grupo hemo.</li>
+                        <li><strong>Amidas y Enlace Peptídico:</strong> Deslocalización electrónica por resonancia entre el carbonilo y el nitrógeno que confiere carácter parcial de doble enlace ($40\%$) y <strong>rigidez trigonal plana</strong> indispensable para la conformación tridimensional de las proteínas.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-2 flex justify-end">
+                <button onclick="closeTutorial()" class="w-full bg-accent hover:opacity-90 text-white py-2.5 rounded-xl text-xs font-semibold transition shadow-sm">
+                    ¡Comenzar Estudio!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de Interactividad y Renderizado KaTeX -->
+    <script>
+        const state = {
+            currentTab: 'carbono',
+            currentHybrid: 'sp3',
+            currentIso: 'cis'
+        };
+
+        // Navigation
+        function switchTab(tabId) {
+            state.currentTab = tabId.replace('tab-', '');
+            const tabs = ['carbono', 'hidrocarburos', 'oxigenados', 'nitrogenados'];
+            tabs.forEach(t => {
+                const btn = document.getElementById('btn-tab-' + t);
+                const content = document.getElementById('tab-' + t);
+                if (t === state.currentTab) {
+                    btn.className = "bg-accent text-white flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-semibold transition";
+                    content.classList.remove('hidden');
+                    content.classList.add('block');
+                } else {
+                    btn.className = "text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-medium transition";
+                    content.classList.remove('block');
+                    content.classList.add('hidden');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(renderLatex, 50);
+        }
+
+        function openTutorial() {
+            document.getElementById('tutorial-modal').classList.remove('hidden');
+            renderLatex();
+        }
+
+        function closeTutorial() {
+            document.getElementById('tutorial-modal').classList.add('hidden');
+        }
+
+        function renderLatex() {
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false},
+                        {left: '\\[', right: '\\]', display: true},
+                        {left: '\\(', right: '\\)', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        // Module 1: Hybridization selector
+        const hybridData = {
+            sp3: {
+                title: "Carbono Tetraédrico ($sp^3$): Ángulo de $109.5^\\circ$",
+                desc: "Los 4 orbitales híbridos $sp^3$ se orientan hacia los vértices de un tetraedro regular minimizando la repulsión electrónica (RPECV). La distancia angular exacta de $109.5^\\circ$ genera una estructura tridimensional indeformable que confiere orientación precisa a los sustituyentes.",
+                pharma: "La actividad farmacológica de medicamentos y neurotransmisores exige una complementariedad espacial estereoespecífica con los sitios activos de receptores biológicos. Una orientación tetraédrica inversa en un estereoisómero puede anular el efecto terapéutico o desencadenar toxicidad.",
+                caption: "Geometría Tetraédrica ($sp^3$) - Ángulo 109.5°",
+                svg: `
+                    <svg width="180" height="150" viewBox="0 0 180 150">
+                        <circle cx="90" cy="75" r="14" fill="#1e293b"></circle>
+                        <text x="90" y="80" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">C</text>
+                        <line x1="90" y1="61" x2="90" y2="20" stroke="#436600" stroke-width="4" stroke-linecap="round"></line>
+                        <circle cx="90" cy="16" r="8" fill="#436600"></circle>
+                        <text x="90" y="20" text-anchor="middle" font-size="8" fill="#fff">H</text>
+
+                        <line x1="104" y1="75" x2="148" y2="98" stroke="#436600" stroke-width="4" stroke-linecap="round"></line>
+                        <circle cx="152" cy="101" r="8" fill="#436600"></circle>
+                        <text x="152" y="105" text-anchor="middle" font-size="8" fill="#fff">H</text>
+
+                        <line x1="76" y1="75" x2="32" y2="98" stroke="#436600" stroke-width="4" stroke-linecap="round"></line>
+                        <circle cx="28" cy="101" r="8" fill="#436600"></circle>
+                        <text x="28" y="105" text-anchor="middle" font-size="8" fill="#fff">H</text>
+
+                        <polygon points="90,89 80,128 100,128" fill="#436600"></polygon>
+                        <circle cx="90" cy="132" r="8" fill="#436600"></circle>
+                        <text x="90" y="136" text-anchor="middle" font-size="8" fill="#fff">H</text>
+                        <text x="90" y="105" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f172a" font-family="JetBrains Mono">109.5°</text>
+                    </svg>
+                `
+            },
+            sp2: {
+                title: "Carbono Trigonal Plano ($sp^2$): Ángulo de $120^\\circ$",
+                desc: "3 orbitales híbridos $sp^2$ coplanares con un ángulo de $120^\\circ$ y un orbital $p$ puro perpendicular no hibridado para formar el enlace $\\pi$. Presente en alquenos y grupos carbonilo (aldehídos, cetonas, amidas).",
+                pharma: "La planaridad trigonal de los carbonilos expone el carbono al ataque nucleofílico en enzimas y fija la conformación rígida y plana del enlace peptídico en las cadenas polipeptídicas.",
+                caption: "Geometría Trigonal Plana ($sp^2$) - Ángulo 120°",
+                svg: `
+                    <svg width="180" height="150" viewBox="0 0 180 150">
+                        <circle cx="90" cy="75" r="14" fill="#1e293b"></circle>
+                        <text x="90" y="80" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">C</text>
+                        <line x1="90" y1="61" x2="90" y2="20" stroke="#0284c7" stroke-width="4" stroke-linecap="round"></line>
+                        <circle cx="90" cy="16" r="8" fill="#0284c7"></circle>
+                        <text x="90" y="20" text-anchor="middle" font-size="8" fill="#fff">H</text>
+
+                        <line x1="102" y1="83" x2="145" y2="115" stroke="#0284c7" stroke-width="4" stroke-linecap="round"></line>
+                        <circle cx="150" cy="120" r="8" fill="#0284c7"></circle>
+                        <text x="150" y="124" text-anchor="middle" font-size="8" fill="#fff">H</text>
+
+                        <line x1="78" y1="83" x2="35" y2="115" stroke="#0284c7" stroke-width="4" stroke-linecap="round"></line>
+                        <circle cx="30" cy="120" r="8" fill="#0284c7"></circle>
+                        <text x="30" y="124" text-anchor="middle" font-size="8" fill="#fff">H</text>
+                        <text x="90" y="105" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f172a" font-family="JetBrains Mono">120°</text>
+                    </svg>
+                `
+            },
+            sp: {
+                title: "Carbono Lineal ($sp$): Ángulo de $180^\\circ$",
+                desc: "2 orbitales híbridos $sp$ colineales con una separación de $180^\\circ$ y dos orbitales $p$ puros perpendiculares para formar dos enlaces $\\pi$. Presente en alquinos ($\\\\text{C}\\\\equiv\\\\text{C}$) y en el dióxido de carbono ($\\\\text{CO}_2$).",
+                pharma: "La geometría rígida y lineal confiere gran reactividad de adición a los alquinos y orienta espacialmente ligandos inhibidores de enzimas biológicas.",
+                caption: "Geometría Lineal ($sp$) - Ángulo 180°",
+                svg: `
+                    <svg width="180" height="150" viewBox="0 0 180 150">
+                        <circle cx="90" cy="75" r="14" fill="#1e293b"></circle>
+                        <text x="90" y="80" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">C</text>
+                        <line x1="76" y1="75" x2="25" y2="75" stroke="#8b5cf6" stroke-width="4" stroke-linecap="round"></line>
+                        <circle cx="20" cy="75" r="8" fill="#8b5cf6"></circle>
+                        <text x="20" y="79" text-anchor="middle" font-size="8" fill="#fff">H</text>
+
+                        <line x1="104" y1="75" x2="155" y2="75" stroke="#8b5cf6" stroke-width="4" stroke-linecap="round"></line>
+                        <circle cx="160" cy="75" r="8" fill="#8b5cf6"></circle>
+                        <text x="160" y="79" text-anchor="middle" font-size="8" fill="#fff">H</text>
+                        <text x="90" y="105" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f172a" font-family="JetBrains Mono">180°</text>
+                    </svg>
+                `
+            }
+        };
+
+        function selectHybrid(hyb) {
+            state.currentHybrid = hyb;
+            ['sp3', 'sp2', 'sp'].forEach(h => {
+                const btn = document.getElementById('btn-hyb-' + h);
+                if (h === hyb) {
+                    btn.className = "px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-accent text-white shadow-xs transition whitespace-nowrap";
+                } else {
+                    btn.className = "px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition whitespace-nowrap";
+                }
+            });
+
+            const data = hybridData[hyb];
+            document.getElementById('hyb-title').innerHTML = data.title;
+            document.getElementById('hyb-desc').innerHTML = data.desc;
+            document.getElementById('hyb-pharma').innerHTML = data.pharma;
+            document.getElementById('hyb-caption').innerHTML = data.caption;
+            document.getElementById('hyb-svg-container').innerHTML = data.svg;
+            renderLatex();
+        }
+
+        // Module 2: Hydrocarbon Sub-tabs
+        function switchHydroSub(subId) {
+            ['alcanos', 'alquenos', 'aromaticos'].forEach(s => {
+                document.getElementById('hydro-sub-' + s).classList.add('hidden');
+                document.getElementById('btn-sub-' + s).className = "px-4 py-2 text-xs font-semibold rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition";
+            });
+            document.getElementById('hydro-sub-' + subId).classList.remove('hidden');
+            document.getElementById('btn-sub-' + subId).className = "px-4 py-2 text-xs font-semibold rounded-xl bg-accent text-white shadow-xs transition";
+            renderLatex();
+        }
+
+        // Cis-Trans Toggle
+        function toggleCisTrans(type) {
+            state.currentIso = type;
+            const btnCis = document.getElementById('btn-iso-cis');
+            const btnTrans = document.getElementById('btn-iso-trans');
+            const nameEl = document.getElementById('iso-name');
+            const descEl = document.getElementById('iso-desc');
+            const capEl = document.getElementById('iso-caption');
+            const svgBox = document.getElementById('iso-svg-container');
+
+            if (type === 'cis') {
+                btnCis.className = "px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-accent text-white shadow-xs transition";
+                btnTrans.className = "px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition";
+                nameEl.innerText = "cis-but-2-eno (Grupos hacia el mismo lado)";
+                descEl.innerText = "Ambos grupos metilo (-CH₃) se orientan hacia el mismo semiplano respecto al eje del doble enlace. Presenta momento dipolar neto diferente de cero (μ > 0), lo que incrementa su punto de ebullición.";
+                capEl.innerText = "Configuración CIS: Dipolo neto > 0";
+                svgBox.innerHTML = `
+                    <svg width="200" height="120" viewBox="0 0 200 120">
+                        <line x1="80" y1="60" x2="120" y2="60" stroke="#1e293b" stroke-width="4"></line>
+                        <line x1="80" y1="68" x2="120" y2="68" stroke="#436600" stroke-width="3"></line>
+                        <circle cx="80" cy="64" r="8" fill="#1e293b"></circle>
+                        <circle cx="120" cy="64" r="8" fill="#1e293b"></circle>
+                        <line x1="80" y1="60" x2="45" y2="25" stroke="#436600" stroke-width="3"></line>
+                        <circle cx="40" cy="20" r="10" fill="#436600"></circle>
+                        <text x="40" y="24" text-anchor="middle" font-size="8" fill="#fff" font-weight="bold">CH3</text>
+                        <line x1="120" y1="60" x2="155" y2="25" stroke="#436600" stroke-width="3"></line>
+                        <circle cx="160" cy="20" r="10" fill="#436600"></circle>
+                        <text x="160" y="24" text-anchor="middle" font-size="8" fill="#fff" font-weight="bold">CH3</text>
+                        <line x1="80" y1="68" x2="55" y2="98" stroke="#94a3b8" stroke-width="2"></line>
+                        <text x="50" y="105" text-anchor="middle" font-size="9" fill="#64748b">H</text>
+                        <line x1="120" y1="68" x2="145" y2="98" stroke="#94a3b8" stroke-width="2"></line>
+                        <text x="150" y="105" text-anchor="middle" font-size="9" fill="#64748b">H</text>
+                    </svg>
+                `;
+            } else {
+                btnTrans.className = "px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-accent text-white shadow-xs transition";
+                btnCis.className = "px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition";
+                nameEl.innerText = "trans-but-2-eno (Grupos en lados opuestos)";
+                descEl.innerText = "Los grupos metilo (-CH₃) se sitúan en semiplanos opuestos respecto al doble enlace. Los dipolos de enlace se anulan vectorialmente (μ = 0), otorgando mayor simetría y estabilidad termodinámica.";
+                capEl.innerText = "Configuración TRANS: Dipolos cancelados (μ = 0)";
+                svgBox.innerHTML = `
+                    <svg width="200" height="120" viewBox="0 0 200 120">
+                        <line x1="80" y1="60" x2="120" y2="60" stroke="#1e293b" stroke-width="4"></line>
+                        <line x1="80" y1="68" x2="120" y2="68" stroke="#436600" stroke-width="3"></line>
+                        <circle cx="80" cy="64" r="8" fill="#1e293b"></circle>
+                        <circle cx="120" cy="64" r="8" fill="#1e293b"></circle>
+                        <line x1="80" y1="60" x2="45" y2="25" stroke="#436600" stroke-width="3"></line>
+                        <circle cx="40" cy="20" r="10" fill="#436600"></circle>
+                        <text x="40" y="24" text-anchor="middle" font-size="8" fill="#fff" font-weight="bold">CH3</text>
+                        <line x1="120" y1="68" x2="155" y2="100" stroke="#436600" stroke-width="3"></line>
+                        <circle cx="160" cy="105" r="10" fill="#436600"></circle>
+                        <text x="160" y="109" text-anchor="middle" font-size="8" fill="#fff" font-weight="bold">CH3</text>
+                        <line x1="80" y1="68" x2="55" y2="98" stroke="#94a3b8" stroke-width="2"></line>
+                        <text x="50" y="105" text-anchor="middle" font-size="9" fill="#64748b">H</text>
+                        <line x1="120" y1="60" x2="145" y2="25" stroke="#94a3b8" stroke-width="2"></line>
+                        <text x="150" y="20" text-anchor="middle" font-size="9" fill="#64748b">H</text>
+                    </svg>
+                `;
+            }
+            renderLatex();
+        }
+
+        // Initialize on window load
+        window.onload = function() {
+            switchTab('tab-carbono');
+            selectHybrid('sp3');
+            renderLatex();
+        };
+    </script>
+</body>
+</html>
